@@ -4,7 +4,7 @@ const register = require("../controller/register");
 const login = require("../controller/login");
 const authenticate = require("../middleware/authenticate");
 
-router.get("/sign", register);
+router.post("/sign", register);
 
 
 router.get("/login", authenticate, login);

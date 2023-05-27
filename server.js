@@ -5,14 +5,12 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const connection = require("./db/db");
 const cassandra = require("cassandra-driver");
-const keyspace = "tester1";
 const datacenter="datacenter1";
 const contactPoints = ['localhost'];
 dotenv.config();
 
 const client = new cassandra.Client({
     contactPoints: contactPoints,
-    // keyspace: keyspace,
     localDataCenter: datacenter,
 });
 
