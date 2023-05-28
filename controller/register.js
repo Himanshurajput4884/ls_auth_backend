@@ -94,7 +94,7 @@ const register = async (req, res) => {
                     client.execute(insertQuery, [username, Array.from(initialSet)])
                     .then(()=>{
                       console.log("New row and token is inserted.");
-                      return res.status(201).send({message: "New row and token is added."});
+                      return res.status(201).json({message: "New row and token is added.", token:token});
                     })
                   }
                   else{
@@ -105,14 +105,14 @@ const register = async (req, res) => {
                     client.execute(updateQuery, [Array.from(updateSet), username], {prepare:true})
                     .then(()=>{
                       console.log("New token added to set");
-                      return res.status(201).send({message:"New token added to set"});
+                      return res.status(201).json({message:"New token added to set", token:token});
                     })
                   }
                 })
             })
         }
         else{
-            return res.status(401).send({message: "Username Taken"});
+            return res.status(401).json({message: "Username Taken"});
         }
     })
   } catch (err) {

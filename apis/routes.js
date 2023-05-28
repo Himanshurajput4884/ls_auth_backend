@@ -7,7 +7,7 @@ const authenticate = require("../middleware/authenticate");
 router.post("/sign", register);
 
 
-router.get("/login", authenticate, login);
+router.post("/login", login);
 
 
 
