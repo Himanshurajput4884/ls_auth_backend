@@ -7,6 +7,7 @@ const connection = require("./db/db");
 const cassandra = require("cassandra-driver");
 const datacenter="datacenter1";
 const contactPoints = ['localhost'];
+const keyspace = "lsQuiz";
 dotenv.config();
 
 const client = new cassandra.Client({
@@ -14,7 +15,32 @@ const client = new cassandra.Client({
     localDataCenter: datacenter,
 });
 
+const createKeyspace = async ()=>{
+    client.connect()
+    .then(()=>{
+        console.log("Connected to Cassandra.");
 
+        const createKeyspaceQuery = `
+        CREATE KEYSPACE IF NOT EXISTS ${keyspace} 
+        WITH replication = {
+            'class': 'SimpleStrategy',
+            'replication_factor': 1
+        };
+        `;
+          return client.execute(createKeyspaceQuery);
+        })
+        .then(()=>{
+            return client.execute(`USE ${keyspace}`);
+        })
+        .then(()=>{
+            client.shutdown();
+        })
+        .catch((err)=>{
+            console.log("Error: ", err);
+        })
+}
+
+createKeyspace();
 
 const app = express();
 app.use(cors());

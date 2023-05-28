@@ -1,5 +1,4 @@
 const cassandra = require("cassandra-driver");
-const keyspace = "tester1";
 const datacenter="datacenter1";
 const contactPoints = ['localhost'];
 
