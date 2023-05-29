@@ -75,7 +75,7 @@ const register = async (req, res) => {
             client.execute(registerQuery, [username, name, encryptedPass], {prepare:true})
             .then(async (result2)=>{
                 const token =  jwt.sign({
-                  userId: username
+                  username: username
                 },
                 process.env.SECRETKEY,
                 {
