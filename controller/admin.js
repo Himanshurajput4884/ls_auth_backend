@@ -48,7 +48,7 @@ const admin = async (req, res)=>{
           }
           else if(isMatch){
             const token =  jwt.sign({
-                userId: username
+                username: username
               },
               process.env.SECRETKEY,
               {

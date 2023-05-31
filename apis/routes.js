@@ -15,7 +15,7 @@ router.post("/admin", admin);
 
 router.get("/check", authenticate, checkUser);
 
-router.post("/profile", userProfile);
+router.post("/profile", authenticate, userProfile);
 
 
 module.exports = router;

@@ -15,21 +15,21 @@ const client = new cassandra.Client({
 });
 
 const authenticate = async (req, res, next) => {
+  console.log(req.headers);
   const token =
     req.body.token ||
     req.query.token ||
     req.headers["x-access-token"] ||
     req.headers.authorization;
-
+  console.log("Token: ", token);
   if (!token) {
-    res.status(402).json({ message: "Token not found." });
+    return res.status(402).json({ message: "Token not found." });
   }
 
   try {
     const getToken = jwt.verify(token, process.env.SECRETKEY);
-    // console.log(getToken);
     const username = getToken.username;
-    // console.log(username);
+
     client
       .connect()
       .then(() => {
@@ -46,16 +46,18 @@ const authenticate = async (req, res, next) => {
         if (result.rows.length === 0) {
           return res.status(401).json({ message: "Invalid Token" });
         }
+
+        req.body.username = username;
+        next();
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+        return res.status(401).json({ message: "Invalid Token" });
       });
-
-      req.body.username = username;
-      next();
-
   } catch (err) {
     console.log("Error: ", err);
     return res.status(401).json({ message: "Invalid Token" });
   }
-  return next();
 };
 
 module.exports = authenticate;
