@@ -30,7 +30,7 @@ const login = async (req, res)=>{
   setKeyspace();
     try{
       const { username, password } = req.body;
-      // console.log(req.body);
+      console.log(req.body);
       const passQuery = `SELECT * FROM ${table1} WHERE username=?;`;
 
       client.execute(passQuery, [username])
